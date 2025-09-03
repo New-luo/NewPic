@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>现代化工具集合</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease;
+        }
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .tabs-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+        .tabs {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.8);
+            overflow-x: auto;
+            padding: 0 20px;
+        }
+        .tab {
+            padding: 20px 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tab:hover {
+            color: #3498db;
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .tab.active {
+            color: #3498db;
+            border-bottom: 3px solid #3498db;
+        }
+        .tab i {
+            font-size: 1.2rem;
+        }
+        .content-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        .tab-content {
+            display: none;
+            flex-wrap: wrap;
+            gap: 25px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .tab-content.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.5s ease;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: calc(25% - 25px);
+            min-height: 220px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: inherit;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-description {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            align-self: flex-end;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+        .social { background: linear-gradient(135deg, #ff7eb3, #ff758c); }
+        .coding { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .design { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+        .productivity { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+        .bilibili { background: linear-gradient(135deg, #fb7299, #ffafc7); }
+        .twitter { background: linear-gradient(135deg, #1da1f2, #0c85d0); }
+        .instagram { background: linear-gradient(135deg, #e1306c, #833ab4); }
+        .linkedin { background: linear-gradient(135deg, #0077b5, #00a0dc); }
+        .youtube { background: linear-gradient(135deg, #ff0000, #ff4d4d); }
+        .medium { background: linear-gradient(135deg, #00ab6c, #02c39a); }
+        .github { background: linear-gradient(135deg, #6e5494, #333); }
+        .juejin { background: linear-gradient(135deg, #1e80ff, #4e94fa); }
+        .codepen { background: linear-gradient(135deg, #000000, #373737); }
+        .stackoverflow { background: linear-gradient(135deg, #f48024, #bcbbbb); }
+        .figma { background: linear-gradient(135deg, #f24e1e, #a259ff); }
+        .dribbble { background: linear-gradient(135deg, #ea4c89, #f074a4); }
+        .behance { background: linear-gradient(135deg, #1769ff, #4d8aff); }
+        .notion { background: linear-gradient(135deg, #ffffff, #9d9d9d); color: #333 !important; }
+        .trello { background: linear-gradient(135deg, #0079bf, #00aaff); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .feature-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+            color: #3498db;
+        }
+        @media (max-width: 1024px) {
+            .card {
+                width: calc(33.333% - 25px);
+            }
+        }
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 25px);
+            }
+            .tab {
+                padding: 15px 20px;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 576px) {
+            .card {
+                width: 100%;
+            }
+            .tabs {
+                padding: 0 10px;
+            }
+            .tab {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            .content-container {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            .header p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-toolbox"></i> 我的工具集合</h1>
+            <p>收集了我常用的各种在线工具和资源，点击标签切换分类，点击卡片访问网站</p>
+        </div>
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'Social')">
+                    <i class="fas fa-comments"></i> 社交媒体
+                </div>
+                <div class="tab" onclick="openTab(event, 'Coding')">
+                    <i class="fas fa-code"></i> 编程开发
+                </div>
+                <div class="tab" onclick="openTab(event, 'Design')">
+                    <i class="fas fa-paint-brush"></i> 设计资源
+                </div>
+                <div class="tab" onclick="openTab(event, 'Productivity')">
+                    <i class="fas fa-tasks"></i> 效率工具
+                </div>
+            </div>
+        </div>
+        <div class="content-container">
+            <!-- 内容将由JavaScript动态生成 -->
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>正在加载工具数据...</p>
+            </div>
+        </div>
+        <div class="features">
+            <div class="feature-card">
+                <h3><i class="fas fa-paint-brush"></i> 现代化设计</h3>
+                <p>采用渐变背景、阴影效果和圆角设计，使界面更加美观和现代化。</p>
+            </div>
+            <div class="feature-card">
+                <h3><i class="fas fa-icons"></i> 图标增强</h3>
+                <p>使用Font Awesome图标库，提高视觉识别性和用户体验。</p>
+            </div>
+            <div class="feature-card">
+                <h3><i class="fas fa-th-large"></i> 卡片式布局</h3>
+                <p>使用卡片组织内容，提高可读性和美观度，增强用户交互体验。</p>
+            </div>
+            <div class="feature-card">
+                <h3><i class="fas fa-mobile-alt"></i> 响应式设计</h3>
+                <p>完美适配各种屏幕尺寸，从手机到桌面设备都能提供一致的使用体验。</p>
+            </div>
+        </div>
+    </div>
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> 已切换到 <span id="tab-name"></span> 标签页
+    </div>
+    <script>
+        // 工具数据（模拟从后端API获取的数据）
+        const toolsData = [
+            {
+                id: 1,
+                title: "Bilibili",
+                description: "国内知名的视频弹幕网站，提供丰富的视频内容和社区互动",
+                url: "https://www.bilibili.com/",
+                iconClass: "bilibili",
+                icon: "fab fa-bilibili",
+                category: "Social"
+            },
+            {
+                id: 2,
+                title: "Twitter",
+                description: "全球流行的社交媒体平台，实时了解全球热点和关注名人动态",
+                url: "https://twitter.com/",
+                iconClass: "twitter",
+                icon: "fab fa-twitter",
+                category: "Social"
+            },
+            {
+                id: 3,
+                title: "Instagram",
+                description: "图片和视频分享社交平台，发现和分享精彩视觉内容",
+                url: "https://www.instagram.com/",
+                iconClass: "instagram",
+                icon: "fab fa-instagram",
+                category: "Social"
+            },
+            {
+                id: 4,
+                title: "LinkedIn",
+                description: "职场社交网络平台，建立职业人脉和寻找工作机会",
+                url: "https://www.linkedin.com/",
+                iconClass: "linkedin",
+                icon: "fab fa-linkedin",
+                category: "Social"
+            },
+            {
+                id: 5,
+                title: "YouTube",
+                description: "全球最大的视频分享平台，观看和分享高质量视频内容",
+                url: "https://www.youtube.com/",
+                iconClass: "youtube",
+                icon: "fab fa-youtube",
+                category: "Social"
+            },
+            {
+                id: 6,
+                title: "Medium",
+                description: "高质量内容创作和阅读平台，发现深度文章和专业见解",
+                url: "https://medium.com/",
+                iconClass: "medium",
+                icon: "fab fa-medium",
+                category: "Social"
+            },
+            {
+                id: 7,
+                title: "Github",
+                description: "全球最大的代码托管平台，协作开发和版本控制",
+                url: "https://github.com/",
+                iconClass: "github",
+                icon: "fab fa-github",
+                category: "Coding"
+            },
+            {
+                id: 8,
+                title: "掘金",
+                description: "帮助开发者成长的技术社区，分享技术文章和开发经验",
+                url: "https://juejin.cn/",
+                iconClass: "juejin",
+                icon: "fas fa-blog",
+                category: "Coding"
+            },
+            {
+                id: 9,
+                title: "CodePen",
+                description: "在线前端代码编辑和展示平台，分享前端代码和创意",
+                url: "https://codepen.io/",
+                iconClass: "codepen",
+                icon: "fab fa-codepen",
+                category: "Coding"
+            },
+            {
+                id: 10,
+                title: "Stack Overflow",
+                description: "程序员问答社区，解决编程问题和分享知识",
+                url: "https://stackoverflow.com/",
+                iconClass: "stackoverflow",
+                icon: "fab fa-stack-overflow",
+                category: "Coding"
+            },
+            {
+                id: 11,
+                title: "Figma",
+                description: "协作式界面设计工具，实时协作设计用户界面",
+                url: "https://www.figma.com/",
+                iconClass: "figma",
+                icon: "fab fa-figma",
+                category: "Design"
+            },
+            {
+                id: 12,
+                title: "Dribbble",
+                description: "设计师作品分享平台，展示和发现创意设计作品",
+                url: "https://dribbble.com/",
+                iconClass: "dribbble",
+                icon: "fab fa-dribbble",
+                category: "Design"
+            },
+            {
+                id: 13,
+                title: "Behance",
+                description: "Adobe旗下的创意展示平台，展示创意作品和设计项目",
+                url: "https://www.behance.net/",
+                iconClass: "behance",
+                icon: "fab fa-behance",
+                category: "Design"
+            },
+            {
+                id: 14,
+                title: "Notion",
+                description: "一体化工作空间协作工具，笔记、任务和数据库管理",
+                url: "https://www.notion.so/",
+                iconClass: "notion",
+                icon: "fas fa-sticky-note",
+                category: "Productivity"
+            },
+            {
+                id: 15,
+                title: "Trello",
+                description: "看板式项目管理工具，可视化任务管理和团队协作",
+                url: "https://trello.com/",
+                iconClass: "trello",
+                icon: "fab fa-trello",
+                category: "Productivity"
+            }
+        ];
+        // 显示通知
+        function showNotification(tabName) {
+            const tabNames = {
+                'Social': '社交媒体',
+                'Coding': '编程开发',
+                'Design': '设计资源',
+                'Productivity': '效率工具'
+            };
+            document.getElementById('tab-name').textContent = tabNames[tabName] || tabName;
+            document.getElementById('notification').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('notification').classList.remove('show');
+            }, 2000);
+        }
+        // 切换标签函数
+        function openTab(event, tabName) {
+            // 获取所有标签页内容元素
+            var tabContent = document.getElementsByClassName("tab-content");
+            // 隐藏所有标签页内容
+            for (var i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            // 移除所有标签页选项卡的 active 类
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            // 显示当前选中标签页内容
+            document.getElementById(tabName).classList.add("active");
+            // 添加 active 类到当前选中标签页选项卡
+            event.currentTarget.classList.add("active");
+            // 保存用户选择到localStorage
+            localStorage.setItem('lastActiveTab', tabName);
+            // 显示通知
+            showNotification(tabName);
+        }
+        // 使用JSON数据填充内容
+        function populateContent() {
+            const contentContainer = document.querySelector('.content-container');
+            contentContainer.innerHTML = '';
+            // 创建标签内容区域
+            const categories = ['Social', 'Coding', 'Design', 'Productivity'];
+            categories.forEach(category => {
+                const tabContent = document.createElement('div');
+                tabContent.id = category;
+                tabContent.className = 'tab-content';
+                // 过滤属于当前分类的工具
+                const categoryTools = toolsData.filter(tool => tool.category === category);
+                if (categoryTools.length === 0) {
+                    tabContent.innerHTML = `
+                        <div style="width: 100%; text-align: center; padding: 40px; color: #7f8c8d;">
+                            <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <h3>暂无内容</h3>
+                            <p>这个分类暂时没有添加工具</p>
+                        </div>
+                    `;
+                } else {
+                    categoryTools.forEach(tool => {
+                        const card = document.createElement('a');
+                        card.href = tool.url;
+                        card.target = "_blank";
+                        card.className = 'card';
+                        card.innerHTML = `
+                            <div class="card-title">
+                                <i class="${tool.icon}"></i> ${tool.title}
+                            </div>
+                            <div class="card-description">${tool.description}</div>
+                            <div class="card-icon ${tool.iconClass}">
+                                <i class="${tool.icon}"></i>
+                            </div>
+                        `;
+                        tabContent.appendChild(card);
+                    });
+                }
+                contentContainer.appendChild(tabContent);
+            });
+            // 初始化标签状态
+            initTabs();
+        }
+        // 初始化标签状态
+        function initTabs() {
+            // 首先隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // 移除所有标签的active类
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // 检查URL中是否有标签参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            // 尝试从URL参数获取标签
+            if (tabParam && document.getElementById(tabParam)) {
+                // 找到对应的标签并激活
+                const tabs = document.querySelectorAll('.tab');
+                for (let i = 0; i < tabs.length; i++) {
+                    if (tabs[i].getAttribute('onclick').includes(tabParam)) {
+                        tabs[i].classList.add('active');
+                        document.getElementById(tabParam).classList.add('active');
+                        showNotification(tabParam);
+                        return;
+                    }
+                }
+            }
+            // 尝试从localStorage获取上次选择的标签
+            const lastActiveTab = localStorage.getItem('lastActiveTab');
+            if (lastActiveTab && document.getElementById(lastActiveTab)) {
+                // 找到对应的标签并激活
+                const tabs = document.querySelectorAll('.tab');
+                for (let i = 0; i < tabs.length; i++) {
+                    if (tabs[i].getAttribute('onclick').includes(lastActiveTab)) {
+                        tabs[i].classList.add('active');
+                        document.getElementById(lastActiveTab).classList.add('active');
+                        showNotification(lastActiveTab);
+                        return;
+                    }
+                }
+            }
+            // 默认激活第一个标签
+            document.querySelector('.tab').classList.add('active');
+            document.querySelector('.tab-content').classList.add('active');
+        }
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 模拟从API获取数据
+            setTimeout(() => {
+                populateContent();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
